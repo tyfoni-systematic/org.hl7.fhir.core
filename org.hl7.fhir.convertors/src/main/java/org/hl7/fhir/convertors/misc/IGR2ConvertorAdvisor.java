@@ -29,31 +29,15 @@ package org.hl7.fhir.convertors.misc;
   
  */
 
-
-
 import org.hl7.fhir.convertors.advisors.VersionConvertorAdvisor40;
-import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.CodeSystem;
 import org.hl7.fhir.r4.model.ValueSet;
-import org.hl7.fhir.r5.model.FhirPublication;
+import org.jetbrains.annotations.NotNull;
 
 public class IGR2ConvertorAdvisor implements VersionConvertorAdvisor40 {
 
   @Override
-  public boolean ignoreEntry(BundleEntryComponent src, FhirPublication publication) {
-    return false;
-  }
-
-
-
-  @Override
-  public void handleCodeSystem(CodeSystem cs, ValueSet vs) {
+  public void handleCodeSystem(@NotNull CodeSystem cs, @NotNull ValueSet vs) {
     cs.setId(vs.getId());
   }
-
-  @Override
-  public CodeSystem getCodeSystem(ValueSet src) {
-    return null;
-  }
-
 }

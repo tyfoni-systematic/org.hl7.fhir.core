@@ -1,4 +1,4 @@
-package org.hl7.fhir.convertors.conv10_40;
+package org.hl7.fhir.convertors.advisors;
 
 import org.hl7.fhir.convertors.VersionConvertor_10_40;
 import org.hl7.fhir.convertors.advisors.VersionConvertorAdvisor40;

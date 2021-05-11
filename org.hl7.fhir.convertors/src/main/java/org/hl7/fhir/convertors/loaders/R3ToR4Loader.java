@@ -120,22 +120,14 @@ public class R3ToR4Loader extends BaseLoaderR4 implements IContextResourceLoader
   }
 
   @Override
-  public boolean ignoreEntry(BundleEntryComponent src, org.hl7.fhir.r5.model.FhirPublication publication) {
-    return false;
-  }
-
-
-  @Override
   public void handleCodeSystem(CodeSystem cs, ValueSet vs) {
     cs.setId(vs.getId());
     cs.setValueSet(vs.getUrl());
     cslist.add(cs);
-    
   }
 
   @Override
   public CodeSystem getCodeSystem(ValueSet src) {
     return null;
   }
-
 }

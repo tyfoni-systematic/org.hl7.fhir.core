@@ -1,9 +1,7 @@
 package org.hl7.fhir.convertors.advisors
 
 import org.hl7.fhir.exceptions.FHIRException
-import org.hl7.fhir.r4.model.Bundle
-import org.hl7.fhir.r4.model.CodeSystem
-import org.hl7.fhir.r4.model.ValueSet
+import org.hl7.fhir.r4.model.*
 import org.hl7.fhir.r5.model.FhirPublication
 
 /*
@@ -59,7 +57,10 @@ interface VersionConvertorAdvisor40 {
      * @param targetVersion [FhirPublication] of the target version
      * @return [Boolean] True, if we are going to ignore this [Bundle.BundleEntryComponent] in this conversion operation.
      */
-    fun ignoreEntry(src: Bundle.BundleEntryComponent?, targetVersion: FhirPublication): Boolean
+    @JvmDefault
+    fun ignoreEntry(src: Bundle.BundleEntryComponent, targetVersion: FhirPublication): Boolean {
+        return false
+    }
 
     /**
      * In R2, code systems are internal to value sets, but in subsequent versions, they
@@ -72,8 +73,9 @@ interface VersionConvertorAdvisor40 {
      * @param source
      * @throws FHIRException
      */
+    @JvmDefault
     @Throws(FHIRException::class)
-    fun handleCodeSystem(tgtcs: CodeSystem?, source: ValueSet?)
+    fun handleCodeSystem(tgtcs: CodeSystem, source: ValueSet) {}
 
     /**
      * when converting from R4 to R2, and converting a value set, the convertor will need
@@ -85,6 +87,28 @@ interface VersionConvertorAdvisor40 {
      * @return
      * @throws FHIRException
      */
+    @JvmDefault
     @Throws(FHIRException::class)
-    fun getCodeSystem(src: ValueSet?): CodeSystem?
+    fun getCodeSystem(src: ValueSet?): CodeSystem? {
+        return null;
+    }
+
+    /**
+     * When converting an Extension to and from R4, value types support in the source version are not always supported
+     * in the target version. For example, if when converting a source R4 Extension to DSTU2, the [Expression] type in the
+     * source is not supported in the target version.
+     *
+     * The default behavior for such conversions of this type is to treat the operation as a 'lossy' conversion,
+     * ignoring all non-supported fields. However, if identified ahead of time, developers can utilize a convertor
+     * advisor to process these unsupported [Extension] as they see fit.
+     *
+     */
+    @JvmDefault
+    @Throws(FHIRException::class)
+    fun handleExtension(src: Extension, tgt: org.hl7.fhir.dstu2.model.Extension) {}
+
+    @JvmDefault
+    @Throws(FHIRException::class)
+    fun handleExtension(src: Extension, tgt: org.hl7.fhir.dstu3.model.Extension) {}
+
 }

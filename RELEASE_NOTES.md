@@ -13,3 +13,5 @@
 * Renderer: Render OperationDefinition.InputProfile and OutputProfile
 * Important: Allow more valid schemas for Utilities.isAbsoluteUrl
 * Validator: remove notes about extensible bindings if profile extensible binding is valid
+* Added JvmDefault annotation to advisors, so developers only implement what they need
+* Adding test for down-converting r4 Extensions with Expressions

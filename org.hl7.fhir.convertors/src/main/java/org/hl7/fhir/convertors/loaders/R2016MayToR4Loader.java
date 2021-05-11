@@ -113,21 +113,10 @@ public class R2016MayToR4Loader extends BaseLoaderR4 implements IContextResource
   }
 
   @Override
-  public boolean ignoreEntry(BundleEntryComponent src, FhirPublication publication) {
-    return false;
-  }
-
-  @Override
   public void handleCodeSystem(CodeSystem cs, ValueSet vs) {
     cs.setId(vs.getId());
     cs.setValueSet(vs.getUrl());
     cslist.add(cs);
     
   }
-
-  @Override
-  public CodeSystem getCodeSystem(ValueSet src) {
-    return null;
-  }
-
 }
