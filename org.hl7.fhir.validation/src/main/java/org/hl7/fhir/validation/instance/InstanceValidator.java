@@ -5143,8 +5143,17 @@ public class InstanceValidator extends BaseValidator implements IResourceValidat
             }
           } else if (typeForResource.getProfile().isEmpty()) {
             long t = System.nanoTime();
-            StructureDefinition profile = this.context.fetchResource(StructureDefinition.class,
-                "http://hl7.org/fhir/StructureDefinition/" + resourceName);
+            // FUT1-4847 workaround problem with bundle resource being validated against base profile even if profile is present
+            String profileUri = "http://hl7.org/fhir/StructureDefinition/" + resourceName;
+            Element meta = element.getNamedChild(META);
+            if (meta != null) {
+              List<Element> profiles = new ArrayList<Element>();
+              meta.getNamedChildren("profile", profiles);
+              if (!profiles.isEmpty()) {
+                profileUri = profiles.get(0).primitiveValue();
+              }
+            }
+            StructureDefinition profile = this.context.fetchResource(StructureDefinition.class, profileUri);
             timeTracker.sd(t);
             trackUsage(profile, hostContext, element);
             if (rule(errors, NO_RULE_DATE, IssueType.INVALID, element.line(), element.col(), stack.getLiteralPath(),
