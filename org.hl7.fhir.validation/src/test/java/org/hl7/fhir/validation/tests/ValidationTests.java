@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.NotImplementedException;
@@ -68,10 +69,10 @@ import org.hl7.fhir.validation.cli.services.StandAloneValidatorFetcher;
 import org.hl7.fhir.validation.instance.InstanceValidator;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.google.common.base.Charsets;
 import com.google.gson.GsonBuilder;
@@ -79,13 +80,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-@RunWith(Parameterized.class)
+
+
 public class ValidationTests implements IEvaluationContext, IValidatorResourceFetcher, IValidationPolicyAdvisor {
 
   public final static boolean PRINT_OUTPUT_TO_CONSOLE = true;
 
-  @Parameters(name = "{index}: id {0}")
-  public static Iterable<Object[]> data() throws IOException {
+  public static Stream<Arguments> data() throws IOException {
     String contents = TestingUtilities.loadTestResource("validator", "manifest.json");
 
     Map<String, JsonObject> examples = new HashMap<String, JsonObject>();
@@ -99,11 +100,11 @@ public class ValidationTests implements IEvaluationContext, IValidatorResourceFe
     names.addAll(examples.keySet());
     Collections.sort(names);
 
-    List<Object[]> objects = new ArrayList<Object[]>(examples.size());
+    List<Arguments> objects = new ArrayList<Arguments>(examples.size());
     for (String id : names) {
-        objects.add(new Object[]{id, examples.get(id)});
+        objects.add( Arguments.of(id, examples.get(id)));
     }
-    return objects;
+    return objects.stream();
   }
 
   private static JsonObject manifest;
@@ -115,14 +116,18 @@ public class ValidationTests implements IEvaluationContext, IValidatorResourceFe
   private static ValidationEngine vCurr;
   private static IgLoader igLoader;
 
+  /*
   public ValidationTests(String name, JsonObject content) {
     this.name = name;
     this.content = content;
   }
+*/
 
-  @SuppressWarnings("deprecation")
-  @Test
-  public void test() throws Exception {
+  @ParameterizedTest
+  @MethodSource("data")
+  public void test(String name, JsonObject content) throws Exception {
+    this.name = name;
+    this.content = content;
     long setup = System.nanoTime();
     this.content = content;
     this.name = name;

@@ -35,6 +35,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -444,14 +445,12 @@ public class TestingUtilities {
     return null;
   }
 
-
   public static String resourceNameToFile(String name) throws IOException {
-    return Utilities.path(System.getProperty("user.dir"), "src", "test", "resources", name);
+    return TestingUtilities.class.getClassLoader().getResource(name).getPath();
   }
 
-
   public static String resourceNameToFile(String subFolder, String name) throws IOException {
-    return Utilities.path(System.getProperty("user.dir"), "src", "test", "resources", subFolder, name);
+    return TestingUtilities.class.getClassLoader().getResource( (subFolder != null ? subFolder + "/" : "") + name).getPath();
   }
 
 }
