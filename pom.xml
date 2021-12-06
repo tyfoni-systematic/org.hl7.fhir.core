@@ -47,6 +47,7 @@
         <module>org.hl7.fhir.validation.cli</module>
         <!-- The report project exists only to aggregate the test results from the other projects into a central report. -->
         <module>org.hl7.fhir.report</module>
+        <module>org.hl7.fhir.testcasesvalidator</module>
     </modules>
 
     <repositories>
@@ -193,6 +194,18 @@
                         <id>java-test-compile</id>
                         <phase>test-compile</phase>
                         <goals> <goal>testCompile</goal> </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

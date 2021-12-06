@@ -11,6 +11,18 @@ import java.util.List;
 
 public class BaseTestingUtilities {
 
+  static final String FHIR_TEST_CASES_ENV = "FHIR_TEST_CASES";
+
+  private static String fhirTestCasesDirectory = null;
+
+  public static void setFhirTestCasesDirectory(String fhirTestCasesDirectory) {
+    BaseTestingUtilities.fhirTestCasesDirectory = fhirTestCasesDirectory;
+  }
+
+  public static final String getFhirTestCasesDirectory() {
+    return fhirTestCasesDirectory != null ? fhirTestCasesDirectory : System.getenv(FHIR_TEST_CASES_ENV);
+  }
+
   static public boolean silent;
 
   public static String loadTestResource(String... paths) throws IOException {
@@ -22,7 +34,9 @@ public class BaseTestingUtilities {
      * the name of the project directory to something other than 'fhir-test-cases', or move it to another location, not
      * at the same directory level as the core project.
      */
-    String dir = System.getenv("FHIR-TEST-CASES");
+
+
+    String dir = getFhirTestCasesDirectory();
     if (dir != null && new CSFile(dir).exists()) {
       String n = Utilities.path(dir, Utilities.path(paths));
       // ok, we'll resolve this locally
@@ -43,7 +57,7 @@ public class BaseTestingUtilities {
 
   
   public static InputStream loadTestResourceStream(String... paths) throws IOException {
-    String dir = System.getenv("FHIR-TEST-CASES");
+    String dir = getFhirTestCasesDirectory();
     if (dir != null && new File(dir).exists()) {
       String n = Utilities.path(dir, Utilities.path(paths));
       return new FileInputStream(n);
@@ -58,7 +72,7 @@ public class BaseTestingUtilities {
   }
 
   public static byte[] loadTestResourceBytes(String... paths) throws IOException {
-    String dir = System.getenv("FHIR-TEST-CASES");
+    String dir = getFhirTestCasesDirectory();
     if (dir != null && new File(dir).exists()) {
       String n = Utilities.path(dir, Utilities.path(paths));
       return TextFile.fileToBytes(n);
@@ -73,7 +87,7 @@ public class BaseTestingUtilities {
   }
 
   public static boolean findTestResource(String... paths) throws IOException {
-    String dir = System.getenv("FHIR-TEST-CASES");
+    String dir = getFhirTestCasesDirectory();
     if (dir != null && new File(dir).exists()) {
       String n = Utilities.path(dir, Utilities.path(paths));
       return new File(n).exists();
