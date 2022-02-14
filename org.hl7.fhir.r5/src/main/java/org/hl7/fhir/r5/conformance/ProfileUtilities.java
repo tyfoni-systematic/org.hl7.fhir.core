@@ -434,7 +434,8 @@ public class ProfileUtilities extends TranslatingUtilities {
 
   public List<ElementDefinition> getChildMap(StructureDefinition profile, ElementDefinition element) throws DefinitionException {
     if (childMapCache .containsKey(element)) {
-      return childMapCache.get(element);
+      // FUT1-5668 clone list on return (https://github.com/hapifhir/org.hl7.fhir.core/issues/1004)
+      return new ArrayList<>(childMapCache.get(element));
     }
     if (element.getContentReference() != null) {
       List<ElementDefinition> list = null;
@@ -476,7 +477,7 @@ public class ProfileUtilities extends TranslatingUtilities {
           break;
       }
       childMapCache.put(element, res);
-      return res;
+      return new ArrayList<>(res);
     }
   }
 
