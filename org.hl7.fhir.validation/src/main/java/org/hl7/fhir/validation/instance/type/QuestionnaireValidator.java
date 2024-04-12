@@ -556,12 +556,21 @@ public class QuestionnaireValidator extends BaseValidator {
           case CODING:
             String itemType = validateQuestionnaireResponseItemType(errors, answer, ns, ok, "Coding", "date", "time", "integer", "string");
             if (itemType != null) {
-              if (itemType.equals("Coding")) validateAnswerCode(errors, answer, ns, qsrc, qItem, false);
-              else if (itemType.equals("date")) checkOption(errors, answer, ns, qsrc, qItem, "date");
-              else if (itemType.equals("time")) checkOption(errors, answer, ns, qsrc, qItem, "time");
-              else if (itemType.equals("integer"))
-                ok.see(checkOption(errors, answer, ns, qsrc, qItem, "integer"));
-              else if (itemType.equals("string")) checkOption(errors, answer, ns, qsrc, qItem, "string");
+              if(qItem.getAnswerConstraint().equals(org.hl7.fhir.r5.model.Questionnaire.QuestionnaireAnswerConstraint.OPTIONSORSTRING)){
+                // Validating answer as OpenChoice
+                if (itemType.equals("Coding")) validateAnswerCode(errors, answer, ns, qsrc, qItem, true);
+                else if (itemType.equals("date")) checkOption(errors, answer, ns, qsrc, qItem, "date");
+                else if (itemType.equals("time")) checkOption(errors, answer, ns, qsrc, qItem, "time");
+                else if (itemType.equals("integer")) checkOption(errors, answer, ns, qsrc, qItem, "integer");
+                else if (itemType.equals("string")) checkOption(errors, answer, ns, qsrc, qItem, "string", true);
+              } else {
+                // Validating answer as Choice
+                if (itemType.equals("Coding")) validateAnswerCode(errors, answer, ns, qsrc, qItem, false);
+                else if (itemType.equals("date")) checkOption(errors, answer, ns, qsrc, qItem, "date");
+                else if (itemType.equals("time")) checkOption(errors, answer, ns, qsrc, qItem, "time");
+                else if (itemType.equals("integer")) checkOption(errors, answer, ns, qsrc, qItem, "integer");
+                else if (itemType.equals("string")) checkOption(errors, answer, ns, qsrc, qItem, "string", false);
+              }
             }
             break;
 //          case OPENCHOICE:
