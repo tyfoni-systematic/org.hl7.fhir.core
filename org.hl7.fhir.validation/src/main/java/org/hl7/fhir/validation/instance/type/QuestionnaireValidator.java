@@ -555,12 +555,23 @@ public class QuestionnaireValidator extends BaseValidator {
           case CODING:
             String itemType = validateQuestionnaireResponseItemType(errors, answer, ns, ok, "Coding", "date", "time", "integer", "string");
             if (itemType != null) {
-              if (itemType.equals("Coding")) validateAnswerCode(errors, answer, ns, qsrc, qItem, false);
-              else if (itemType.equals("date")) checkOption(errors, answer, ns, qsrc, qItem, "date");
-              else if (itemType.equals("time")) checkOption(errors, answer, ns, qsrc, qItem, "time");
-              else if (itemType.equals("integer"))
-                ok.see(checkOption(errors, answer, ns, qsrc, qItem, "integer"));
-              else if (itemType.equals("string")) checkOption(errors, answer, ns, qsrc, qItem, "string");
+              // Part of https://support.systematic.com/browse/FUT1-13481 fixed by commit https://github.com/tyfoni-systematic/org.hl7.fhir.core/commit/83300642484c4542e8169b50171b6025d92eab22
+              // Because we use R4 resources (has open-choice), but R5 validation (does not have open-choice), we have to distinguish and validate open-choice in a custom way.
+              if(qItem.getAnswerConstraint().equals(org.hl7.fhir.r5.model.Questionnaire.QuestionnaireAnswerConstraint.OPTIONSORSTRING)){
+                // Validating answer as OpenChoice
+                if (itemType.equals("Coding")) validateAnswerCode(errors, answer, ns, qsrc, qItem, true);
+                else if (itemType.equals("date")) checkOption(errors, answer, ns, qsrc, qItem, "date");
+                else if (itemType.equals("time")) checkOption(errors, answer, ns, qsrc, qItem, "time");
+                else if (itemType.equals("integer")) checkOption(errors, answer, ns, qsrc, qItem, "integer");
+                else if (itemType.equals("string")) checkOption(errors, answer, ns, qsrc, qItem, "string", true);
+              } else {
+                // Validating answer as Choice
+                if (itemType.equals("Coding")) validateAnswerCode(errors, answer, ns, qsrc, qItem, false);
+                else if (itemType.equals("date")) checkOption(errors, answer, ns, qsrc, qItem, "date");
+                else if (itemType.equals("time")) checkOption(errors, answer, ns, qsrc, qItem, "time");
+                else if (itemType.equals("integer")) checkOption(errors, answer, ns, qsrc, qItem, "integer");
+                else if (itemType.equals("string")) checkOption(errors, answer, ns, qsrc, qItem, "string", false);
+              }
             }
             break;
 //          case OPENCHOICE:
