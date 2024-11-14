@@ -249,7 +249,7 @@ public class I18nConstants {
   public static final String EXTENSION_PROF_TYPE = "Extension_PROF_Type";
   public static final String EXT_VER_URL_IGNORE = "EXT_VER_URL_IGNORE";
   public static final String EXT_VER_URL_MISLEADING = "EXT_VER_URL_MISLEADING";
-  public static final String EXT_VER_URL_NOT_ALLOWED = "EXT_VER_URL_NOT_ALLOWED"; 
+  public static final String EXT_VER_URL_NOT_ALLOWED = "EXT_VER_URL_NOT_ALLOWED";
   public static final String EXT_VER_URL_NO_MATCH = "EXT_VER_URL_NO_MATCH";
   public static final String EXT_VER_URL_REVERSION = "EXT_VER_URL_REVERSION";
   public static final String FHIRPATH_ARITHMETIC_MINUS = "FHIRPATH_ARITHMETIC_MINUS";
@@ -455,10 +455,10 @@ public class I18nConstants {
   public static final String NO_VALID_DISPLAY_FOUND = "NO_VALID_DISPLAY_FOUND";
   public static final String NO_VALUE_SET_IN_URL = "no_value_set";
   public static final String NULL_MIN = "null_min";
-  public static final String OBJECT_CANNOT_BE_KEYED_ARRAY_CHILD_COUNT = "OBJECT_CANNOT_BE_KEYED_ARRAY_CHILD_COUNT";           
+  public static final String OBJECT_CANNOT_BE_KEYED_ARRAY_CHILD_COUNT = "OBJECT_CANNOT_BE_KEYED_ARRAY_CHILD_COUNT";
   public static final String OBJECT_CANNOT_BE_KEYED_ARRAY_NO_CHOICE = "OBJECT_CANNOT_BE_KEYED_ARRAY_NO_CHOICE";
   public static final String OBJECT_CANNOT_BE_KEYED_ARRAY_NO_LIST = "OBJECT_CANNOT_BE_KEYED_ARRAY_NO_LIST";
-  public static final String OBJECT_CANNOT_BE_KEYED_ARRAY_PROP_NAME = "OBJECT_CANNOT_BE_KEYED_ARRAY_PROP_NAME";                     
+  public static final String OBJECT_CANNOT_BE_KEYED_ARRAY_PROP_NAME = "OBJECT_CANNOT_BE_KEYED_ARRAY_PROP_NAME";
   public static final String OBJECT_CANNOT_BE_KEYED_ARRAY_PROP_TYPE = "OBJECT_CANNOT_BE_KEYED_ARRAY_PROP_TYPE";
   public static final String OBJECT_MUST_HAVE_SOME_CONTENT = "Object_must_have_some_content";
   public static final String PACKAGE_VERSION_MISMATCH = "PACKAGE_VERSION_MISMATCH";
@@ -517,6 +517,7 @@ public class I18nConstants {
   public static final String QUESTIONNAIRE_Q_DERIVATION_TYPE_IGNORED = "QUESTIONNAIRE_Q_DERIVATION_TYPE_IGNORED";
   public static final String QUESTIONNAIRE_Q_DERIVATION_TYPE_UNKNOWN = "QUESTIONNAIRE_Q_DERIVATION_TYPE_UNKNOWN";
   public static final String QUESTIONNAIRE_Q_ENABLEWHEN_AFTER = "Questionnaire_Q_EnableWhen_After";
+  public static final String QUESTIONNAIRE_Q_ENABLEWHEN_ANSWER_CODING_INVALID = "Questionnaire_Q_EnableWhen_Answer_Coding_Invalid";
   public static final String QUESTIONNAIRE_Q_ENABLEWHEN_ISINNER = "Questionnaire_Q_EnableWhen_IsInner";
   public static final String QUESTIONNAIRE_Q_ENABLEWHEN_NOLINK = "Questionnaire_Q_EnableWhen_NoLink";
   public static final String QUESTIONNAIRE_Q_ENABLEWHEN_NOTARGET = "Questionnaire_Q_EnableWhen_NoTarget";
@@ -1047,10 +1048,10 @@ public class I18nConstants {
   public static final String WRONG_TYPE_FOR_RESOURCE = "Wrong_type_for_resource";
   public static final String XHTML_IDREF_NOT_FOUND = "XHTML_IDREF_NOT_FOUND";
   public static final String XHTML_IDREF_NOT_MULTIPLE_MATCHES = "XHTML_IDREF_NOT_MULTIPLE_MATCHES";
-  public static final String XHTML_URL_DATA_DATA_INVALID = "XHTML_URL_DATA_DATA_INVALID"; 
-  public static final String XHTML_URL_DATA_DATA_INVALID_COMMA = "XHTML_URL_DATA_DATA_INVALID_COMMA"; 
-  public static final String XHTML_URL_DATA_MIMETYPE = "XHTML_URL_DATA_MIMETYPE";  
-  public static final String XHTML_URL_DATA_NO_DATA = "XHTML_URL_DATA_NO_DATA"; 
+  public static final String XHTML_URL_DATA_DATA_INVALID = "XHTML_URL_DATA_DATA_INVALID";
+  public static final String XHTML_URL_DATA_DATA_INVALID_COMMA = "XHTML_URL_DATA_DATA_INVALID_COMMA";
+  public static final String XHTML_URL_DATA_MIMETYPE = "XHTML_URL_DATA_MIMETYPE";
+  public static final String XHTML_URL_DATA_NO_DATA = "XHTML_URL_DATA_NO_DATA";
   public static final String XHTML_URL_EMPTY = "XHTML_URL_EMPTY";
   public static final String XHTML_URL_INVALID = "XHTML_URL_INVALID";
   public static final String XHTML_URL_INVALID_CHARS = "XHTML_URL_INVALID_CHARS";

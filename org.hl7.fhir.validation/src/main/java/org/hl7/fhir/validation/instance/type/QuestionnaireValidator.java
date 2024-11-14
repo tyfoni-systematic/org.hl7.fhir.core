@@ -218,12 +218,33 @@ public class QuestionnaireValidator extends BaseValidator {
         } else {
           ok = false;
         }
+
+        if (!validateEnableWhenAnswer(errors, ns, ew)) {
+          ok = false;
+        }
       }
     }
     for (QuestionnaireDerivation qd : derivations) {
       ok = validateQuestionnaireElementDerivation(errors, ns, questionnaire, item, qd) && ok;            
     }
     return ok;
+  }
+
+  private boolean validateEnableWhenAnswer(List<ValidationMessage> errors, NodeStack ns, Element enableWhen) {
+    Element answer = enableWhen.getNamedChild("answer", false);
+
+    if (answer == null || !answer.fhirType().equals("Coding")) {
+      return true;
+    }
+
+    Coding answerCoding = ObjectConverter.readAsCoding(answer);
+    ValidationResult vr = context.validateCode(
+      new ValidationOptions(),
+      answerCoding,
+      new ValueSet() // TODO: replace with actual ValueSet
+    );
+
+    return rule(errors, NO_RULE_DATE, IssueType.CODEINVALID, ns, vr.isOk(), I18nConstants.QUESTIONNAIRE_Q_ENABLEWHEN_ANSWER_CODING_INVALID);
   }
 
   private boolean validateQuestionnaireElementDerivation(List<ValidationMessage> errors, NodeStack ns, Element questionnaire, Element item, QuestionnaireDerivation derivation) {
