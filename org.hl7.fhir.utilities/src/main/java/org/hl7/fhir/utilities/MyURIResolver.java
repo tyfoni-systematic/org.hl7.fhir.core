@@ -92,7 +92,7 @@ public class MyURIResolver implements URIResolver {
           if (s != null)
             return s;
         }
-        return TransformerFactory.newInstance().getURIResolver().resolve(href, base);
+        return org.hl7.fhir.utilities.xml.XMLUtil.newXXEProtectedTransformerFactory().getURIResolver().resolve(href, base);
       } else
         return new StreamSource(new FileInputStream(href.contains(File.separator) ? href : Utilities.path(path, href)));
     } catch (FileNotFoundException e) {
