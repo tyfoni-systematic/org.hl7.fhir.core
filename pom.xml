@@ -31,7 +31,7 @@
         <lombok_version>1.18.22</lombok_version>
         <byte_buddy_version>1.12.14</byte_buddy_version>
         <apache_poi_version>5.2.1</apache_poi_version>
-        <saxon_he_version>9.8.0-15</saxon_he_version>
+        <saxon_he_version>11.6</saxon_he_version>
         <maven.compiler.release>11</maven.compiler.release>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
