@@ -4840,7 +4840,8 @@ public class InstanceValidator extends BaseValidator implements IResourceValidat
       while (focus != null) {
         // track the stack while we can
         if (focus.getSpecial() == SpecialElement.BUNDLE_ENTRY && fullUrl == null && focus != null && focus.getParentForValidator() != null && focus.getParentForValidator().getName().equals(ENTRY)) {
-          String type = focus.getParentForValidator().getChildValue(TYPE);
+          // FUT1-19622: fix issue https://github.com/hapifhir/hapi-fhir/issues/6896
+          String type = focus.getParentForValidator().getParentForValidator().getChildValue(TYPE);
           fullUrl = focus.getParentForValidator().getChildValue(FULL_URL); // we don't try to resolve contained references across this boundary
           if (fullUrl == null)
             bh.see(rule(errors, NO_RULE_DATE, IssueType.REQUIRED, focus.getParentForValidator().line(), focus.getParentForValidator().col(), focus.getParentForValidator().getPath(),
