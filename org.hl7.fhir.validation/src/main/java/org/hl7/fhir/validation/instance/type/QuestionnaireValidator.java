@@ -61,7 +61,7 @@ import ca.uhn.fhir.util.ObjectUtil;
 
 public class QuestionnaireValidator extends BaseValidator {
 
- 
+
   private static final String SNOMED_NAME = "SNOMED";
   private static final String UCUM_NAME = "UCUM";
 
@@ -73,7 +73,7 @@ public class QuestionnaireValidator extends BaseValidator {
   public class QuestionnaireDerivation {
     private Questionnaire questionnaire;
     private QuestionnaireDerivationMode mode;
-    
+
     protected QuestionnaireDerivation(Questionnaire questionnaire, QuestionnaireDerivationMode mode) {
       super();
       this.questionnaire = questionnaire;
@@ -85,7 +85,7 @@ public class QuestionnaireValidator extends BaseValidator {
     public QuestionnaireDerivationMode getMode() {
       return mode;
     }
-    
+
   }
 
   public class ElementWithIndex {
@@ -132,7 +132,7 @@ public class QuestionnaireValidator extends BaseValidator {
       res.containerPath = path;
       return res;
     }
-    
+
     public Questionnaire q() {
       return q;
     }
@@ -154,7 +154,7 @@ public class QuestionnaireValidator extends BaseValidator {
     parents.add(element);
     List<QuestionnaireDerivation> derivations = new ArrayList<>();
     boolean ok = checkDerivations(errors, element, element, stack, derivations);
-    return validateQuestionannaireItem(errors, element, element, stack, parents, derivations) && ok;    
+    return validateQuestionannaireItem(errors, element, element, stack, parents, derivations) && ok;
   }
 
   private boolean checkDerivations(List<ValidationMessage> errors, Element element, Element questionnaire, NodeStack stack, List<QuestionnaireDerivation> derivations) {
@@ -177,9 +177,9 @@ public class QuestionnaireValidator extends BaseValidator {
             String c = v.getNamedChildValue("code", false);
             if ("http://hl7.org/fhir/questionnaire-derivationType".equals(s) && "extends".equals(c)) {
               derivations.add(new QuestionnaireDerivation(q, QuestionnaireDerivationMode.EXTENDS));
-            } else if ("http://hl7.org/fhir/questionnaire-derivationType".equals(s) && "compliesWith".equals(c)) { 
+            } else if ("http://hl7.org/fhir/questionnaire-derivationType".equals(s) && "compliesWith".equals(c)) {
               derivations.add(new QuestionnaireDerivation(q, QuestionnaireDerivationMode.COMPLIES));
-            } else if ("http://hl7.org/fhir/questionnaire-derivationType".equals(s) && "inspiredBy".equals(c)) { 
+            } else if ("http://hl7.org/fhir/questionnaire-derivationType".equals(s) && "inspiredBy".equals(c)) {
               hint(errors, "2023-06-15", IssueType.BUSINESSRULE, nv, false, I18nConstants.QUESTIONNAIRE_Q_DERIVATION_TYPE_IGNORED, s+"#"+c);
             } else {
               warning(errors, "2023-06-15", IssueType.BUSINESSRULE, nv, false, I18nConstants.QUESTIONNAIRE_Q_DERIVATION_TYPE_UNKNOWN, s+"#"+c);
@@ -190,7 +190,7 @@ public class QuestionnaireValidator extends BaseValidator {
     }
     return ok;
   }
-  
+
   private boolean validateQuestionannaireItem(List<ValidationMessage> errors, Element element, Element questionnaire, NodeStack stack, List<Element> parents, List<QuestionnaireDerivation> derivations) {
     boolean ok = true;
     List<Element> list = getItems(element);
@@ -266,7 +266,7 @@ public class QuestionnaireValidator extends BaseValidator {
       }
     }
     for (QuestionnaireDerivation qd : derivations) {
-      ok = validateQuestionnaireElementDerivation(errors, ns, questionnaire, item, qd) && ok;            
+      ok = validateQuestionnaireElementDerivation(errors, ns, questionnaire, item, qd) && ok;
     }
     return ok;
   }
@@ -309,16 +309,16 @@ public class QuestionnaireValidator extends BaseValidator {
         if (e != null) {
           NodeStack ne = ns.push(e, -1, e.getProperty().getDefinition(), e.getProperty().getDefinition());
           ok = rule(errors, "2023-06-15", IssueType.BUSINESSRULE, ne, !"true".equals(e.primitiveValue()), I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_NC_REPEATS, derivation.questionnaire.getUrl(), linkId) && ok;
-        }        
+        }
       }
-      
+
       // if it is required, it can't become un-required
       if (qi.getRequired()) {
         Element e = item.getNamedChild("required", false);
         if (e != null) {
           NodeStack ne = ns.push(e, -1, e.getProperty().getDefinition(), e.getProperty().getDefinition());
           ok = rule(errors, "2023-06-15", IssueType.BUSINESSRULE, ne, "true".equals(e.primitiveValue()), I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_NC_REQUIRED, derivation.questionnaire.getUrl(), linkId) && ok;
-        }        
+        }
       }
 
       // if it has a definition, it shouldn't change
@@ -328,7 +328,7 @@ public class QuestionnaireValidator extends BaseValidator {
           NodeStack ne = ns.push(e, -1, e.getProperty().getDefinition(), e.getProperty().getDefinition());
           hint(errors, "2023-06-15", IssueType.BUSINESSRULE, ne, "true".equals(e.primitiveValue()), I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_NC_DEFINITION, derivation.questionnaire.getUrl(), linkId, qi.getDefinition());
         } else {
-          hint(errors, "2023-06-15", IssueType.BUSINESSRULE, ns, false, I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_DEFINITION, derivation.questionnaire.getUrl(), linkId, qi.getDefinition());          
+          hint(errors, "2023-06-15", IssueType.BUSINESSRULE, ns, false, I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_DEFINITION, derivation.questionnaire.getUrl(), linkId, qi.getDefinition());
         }
       }
 
@@ -340,7 +340,7 @@ public class QuestionnaireValidator extends BaseValidator {
           int ml = Utilities.parseInt(e.primitiveValue(), 0);
           ok = rule(errors, "2023-06-15", IssueType.BUSINESSRULE, ne, ml <= qi.getMaxLength(), I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_NC_MAXLENGTH, derivation.questionnaire.getUrl(), linkId, qi.getMaxLength()) && ok;
         } else {
-          ok = rule(errors, "2023-06-15", IssueType.BUSINESSRULE, ns, false, I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_MAXLENGTH, derivation.questionnaire.getUrl(), linkId, qi.getMaxLength()) & ok;          
+          ok = rule(errors, "2023-06-15", IssueType.BUSINESSRULE, ns, false, I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_MAXLENGTH, derivation.questionnaire.getUrl(), linkId, qi.getMaxLength()) & ok;
         }
       }
 
@@ -358,22 +358,22 @@ public class QuestionnaireValidator extends BaseValidator {
               if (v != null) {
                 boolean aok = false;
                 switch (v.fhirType()) {
-                case "integer": 
+                case "integer":
                   aok = findAOPrimitive(qi.getAnswerOption(), "integer", v.primitiveValue());
                   break;
-                case "date": 
+                case "date":
                   aok = findAOPrimitive(qi.getAnswerOption(), "date", v.primitiveValue());
                   break;
-                case "time": 
+                case "time":
                   aok = findAOPrimitive(qi.getAnswerOption(), "time", v.primitiveValue());
                   break;
-                case "string": 
+                case "string":
                   aok = findAOPrimitive(qi.getAnswerOption(), "string", v.primitiveValue());
                   break;
-                case "Coding": 
+                case "Coding":
                   aok = findAOCoding(qi.getAnswerOption(), new Coding().setSystem(v.getNamedChildValue("system", false)).setVersion(v.getNamedChildValue("version", false)).setCode(v.getNamedChildValue("code", false)));
                   break;
-                case "Reference": 
+                case "Reference":
                   aok = findAOReference(qi.getAnswerOption(), new Reference().setReference(v.getNamedChildValue("reference", false)));
                   break;
                 }
@@ -392,7 +392,7 @@ public class QuestionnaireValidator extends BaseValidator {
         if (rule(errors, "2023-06-15", IssueType.BUSINESSRULE, ns, e == null, I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_NC_ANSWER_TYPE, derivation.questionnaire.getUrl(), linkId, "ValueSet", "Option")) {
           warning(errors, "2023-06-15", IssueType.BUSINESSRULE, ns, e == null, I18nConstants.QUESTIONNAIRE_Q_ITEM_DERIVED_NI_ANSWER_VS, derivation.questionnaire.getUrl(), linkId);
         } else {
-          ok = false;;        
+          ok = false;;
         }
       }
       // if it has codings, these should be repeated (can be added to)
@@ -402,7 +402,7 @@ public class QuestionnaireValidator extends BaseValidator {
     }
     return ok;
   }
-      
+
   private boolean findAOReference(List<QuestionnaireItemAnswerOptionComponent> answerOptions, Reference value) {
     for (QuestionnaireItemAnswerOptionComponent ao : answerOptions) {
       if (ao.hasValue() && ao.getValue() instanceof Reference) {
@@ -521,9 +521,9 @@ public class QuestionnaireValidator extends BaseValidator {
     if (qok) {
       QuestionnaireWithContext qsrc = null;
       if (questionnaire.startsWith("#")) {
-        qsrc = QuestionnaireWithContext.fromContainedResource(stack.getLiteralPath(), element, (Questionnaire) loadContainedResource(errors, stack.getLiteralPath(), element, questionnaire.substring(1), Questionnaire.class));        
+        qsrc = QuestionnaireWithContext.fromContainedResource(stack.getLiteralPath(), element, (Questionnaire) loadContainedResource(errors, stack.getLiteralPath(), element, questionnaire.substring(1), Questionnaire.class));
       } else {
-        qsrc = QuestionnaireWithContext.fromQuestionnaire(context.fetchResource(Questionnaire.class, questionnaire));          
+        qsrc = QuestionnaireWithContext.fromQuestionnaire(context.fetchResource(Questionnaire.class, questionnaire));
       }
       if (questionnaireMode == QuestionnaireMode.REQUIRED) {
         qok = rule(errors, NO_RULE_DATE, IssueType.REQUIRED, q.line(), q.col(), stack.getLiteralPath(), qsrc != null, I18nConstants.QUESTIONNAIRE_QR_Q_NOTFOUND, questionnaire);
@@ -562,7 +562,7 @@ public class QuestionnaireValidator extends BaseValidator {
 
   private boolean validateQuestionnaireResponseItem(ValidationContext hostContext, QuestionnaireWithContext qsrc, QuestionnaireItemComponent qItem, List<ValidationMessage> errors, Element element, NodeStack stack, boolean notCompleted, Element questionnaireResponseRoot, QStack qstack) {
     BooleanHolder ok = new BooleanHolder();
-    
+
     String text = element.getNamedChildValue("text", false);
     ok.see(rule(errors, NO_RULE_DATE, IssueType.INVALID, element.line(), element.col(), stack.getLiteralPath(), Utilities.noString(text) || text.equals(qItem.getText()), I18nConstants.QUESTIONNAIRE_QR_ITEM_TEXT, qItem.getLinkId()));
 
@@ -692,7 +692,7 @@ public class QuestionnaireValidator extends BaseValidator {
         }
       }
       if (qItem.getType() != QuestionnaireItemType.GROUP) {
-        // if it's a group, we already have an error before getting here, so no need to hammer away on that 
+        // if it's a group, we already have an error before getting here, so no need to hammer away on that
         ok.see(validateQuestionannaireResponseItems(hostContext, qsrc, qItem.getItem(), errors, answer, stack, notCompleted, questionnaireResponseRoot, qstack));
       }
       i++;
@@ -1605,7 +1605,7 @@ public class QuestionnaireValidator extends BaseValidator {
 
   private boolean checkCodingOption(List<ValidationMessage> errors, Element answer, NodeStack stack, QuestionnaireWithContext qSrc, QuestionnaireItemComponent qItem, boolean openChoice, int answerCount) {
     boolean ok = true;
-    
+
     Element v = answer.getNamedChild("valueCoding", false);
     String system = v.getNamedChildValue("system", false);
     String code = v.getNamedChildValue("code", false);
